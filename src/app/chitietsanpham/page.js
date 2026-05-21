@@ -2,12 +2,10 @@
 
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import { Suspense } from "react"; 
 import Header from "@/components/Header/header";
 import Footer from "@/components/Footer/footer";
 import styles from "./product.module.css";
-
-// Dữ liệu sản phẩm (Nên đưa vào một file riêng trong thực tế)
-// ... các phần import giữ nguyên
 
 const products = [
   { 
@@ -50,7 +48,6 @@ const products = [
     image: "/xoai.webp", 
     description: "Xoài cát Hòa Lộc nổi tiếng thịt dày, không xơ, vị ngọt lịm và mùi thơm đặc trưng không loại xoài nào sánh bằng." 
   },
-  // --- Thêm 5 sản phẩm mới vào đây ---
   { 
     id: 6, 
     name: "Dâu tây Đà Lạt loại A", 
@@ -93,58 +90,65 @@ const products = [
   },
 ];
 
-// ... các phần còn lại của Component giữ nguyên
-
-export default function ProductDetailPage() {
+// Component con xử lý tham số URL
+function ProductDetailContent() {
   const id = useSearchParams().get("id");
   const product = products.find((p) => p.id === parseInt(id));
 
   if (!product) return <div className={styles.notFound}>Sản phẩm không tồn tại!</div>;
 
   return (
+    <div className={styles.productGrid}>
+      <div className={styles.imageBox}>
+        <Image 
+          src={product.image} 
+          alt={product.name} 
+          width={500} 
+          height={500} 
+          className={styles.mainImage}
+          priority 
+        />
+      </div>
+
+      <div className={styles.infoBox}>
+        <nav className={styles.breadcrumb}>Trang chủ / Sản phẩm / {product.name}</nav>
+        <h1 className={styles.name}>{product.name}</h1>
+        
+        <div className={styles.priceSection}>
+          <span className={styles.currentPrice}>{product.price}</span>
+          <span className={styles.oldPrice}>{product.oldPrice}</span>
+        </div>
+
+        <div className={styles.divider} />
+
+        <div className={styles.descriptionBox}>
+          <h3>Mô tả sản phẩm</h3>
+          <p>{product.description}</p>
+        </div>
+
+        <div className={styles.actionButtons}>
+          <button className={styles.btnSecondary}>Thêm vào giỏ</button>
+          <button className={styles.btnPrimary}>Mua ngay</button>
+        </div>
+        
+        <div className={styles.trustBadges}>
+          <span>✓ Giao hàng trong 2h</span>
+          <span>✓ Đổi trả miễn phí</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Component chính export ra ngoài, bọc trong cặp thẻ Suspense
+export default function ProductDetailPage() {
+  return (
     <div className={styles.wrapper}>
       <Header />
       <main className={styles.container}>
-        <div className={styles.productGrid}>
-          {/* Bên trái: Hình ảnh */}
-          <div className={styles.imageBox}>
-            <Image 
-              src={product.image} 
-              alt={product.name} 
-              width={500} height={500} 
-              className={styles.mainImage}
-              priority 
-            />
-          </div>
-
-          {/* Bên phải: Thông tin */}
-          <div className={styles.infoBox}>
-            <nav className={styles.breadcrumb}>Trang chủ / Sản phẩm / {product.name}</nav>
-            <h1 className={styles.name}>{product.name}</h1>
-            
-            <div className={styles.priceSection}>
-              <span className={styles.currentPrice}>{product.price}</span>
-              <span className={styles.oldPrice}>{product.oldPrice}</span>
-            </div>
-
-            <div className={styles.divider} />
-
-            <div className={styles.descriptionBox}>
-              <h3>Mô tả sản phẩm</h3>
-              <p>{product.description}</p>
-            </div>
-
-            <div className={styles.actionButtons}>
-              <button className={styles.btnSecondary}>Thêm vào giỏ</button>
-              <button className={styles.btnPrimary}>Mua ngay</button>
-            </div>
-            
-            <div className={styles.trustBadges}>
-              <span>✓ Giao hàng trong 2h</span>
-              <span>✓ Đổi trả miễn phí</span>
-            </div>
-          </div>
-        </div>
+        <Suspense fallback={<div className={styles.loading}>Đang tải thông tin sản phẩm...</div>}>
+          <ProductDetailContent />
+        </Suspense>
       </main>
       <Footer />
     </div>

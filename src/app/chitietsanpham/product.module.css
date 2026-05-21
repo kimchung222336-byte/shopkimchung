@@ -134,11 +134,42 @@
   text-align: center;
   padding: 100px;
   font-size: 20px;
+  color: #666;
 }
 
+/* === BỔ SUNG: Style cho trạng thái đang tải (Suspense Loading) === */
+.loading {
+  text-align: center;
+  padding: 100px 20px;
+  font-size: 18px;
+  color: #888;
+  letter-spacing: 1px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* === RESPONSIVE MÀN HÌNH NHỎ === */
 @media (max-width: 900px) {
   .productGrid {
     grid-template-columns: 1fr;
     gap: 30px;
+  }
+  
+  .container {
+    padding: 30px 15px;
+  }
+  
+  .name {
+    font-size: 26px;
+  }
+
+  .actionButtons {
+    flex-direction: column; /* Trên điện thoại, nút bấm sẽ xếp chồng lên nhau thay vì dàn hàng ngang để dễ bấm hơn */
+    gap: 10px;
   }
 }
