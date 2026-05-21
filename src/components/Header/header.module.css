@@ -1,0 +1,87 @@
+.header {
+  width: 100%;
+  height: 85px; /* Tăng nhẹ chiều cao để logo hình tròn không bị quá sát viền */
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Tối ưu riêng cho ảnh Logo */
+.logoImg {
+  border-radius: 50%; /* Đảm bảo logo giữ dáng tròn */
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.logoImg:hover {
+  transform: scale(1.1); /* Hiệu ứng phóng to nhẹ khi di chuột vào logo */
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav ul li a {
+  text-decoration: none;
+  color: #444;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav ul li a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #82954B; /* Đổi màu gạch chân sang màu xanh lá cho hợp với trái cây */
+  transition: width 0.3s ease;
+}
+
+.nav ul li a:hover {
+  color: #82954B;
+}
+
+.nav ul li a:hover::after {
+  width: 100%;
+}
+
+.ctaButton {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 25px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #82954B; /* Hover sang màu xanh lá */
+  box-shadow: 0 4px 15px rgba(130, 149, 75, 0.3);
+}
